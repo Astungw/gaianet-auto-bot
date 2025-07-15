@@ -2,48 +2,76 @@ import requests
 import random
 import time
 
-API_URL = "https://llama.gaia.domains/v1/chat/completions"
-
-# Minta token dari user saat bot dijalankan
-api_key = input("Masukkan Bearer Token GaiaNet kamu:\n> ").strip()
-headers = {
-    "Content-Type": "application/json",
-    "Authorization": f"Bearer {api_key}"
-}
-
-pertanyaan = [
+# List pertanyaan random
+questions = [
+    "Apa manfaat membaca buku setiap hari?",
     "Apa itu singularitas AI?",
     "Bagaimana AI bisa membantu manusia?",
-    "Kenapa penting menjaga lingkungan?",
+    "Apa perbedaan antara etika dan moral?",
     "Apa itu gaya gravitasi?",
-    "Apa manfaat membaca buku setiap hari?",
-    "Apa peran blockchain di masa depan?",
-    "Bagaimana cara kerja otak manusia?"
+    "Bagaimana cara kerja otak manusia?",
+    "Mengapa penting menjaga kesehatan mental?",
+    "Apa dampak sosial media terhadap anak muda?",
+    "Bagaimana cara menjadi kreatif setiap hari?",
+    "Apa saja tantangan dalam era digital saat ini?"
 ]
 
-def kirim_chat(pesan):
+# Fungsi untuk mengirim pertanyaan ke API
+def ask_question(token, question):
+    url = "https://llama.gaia.domains/v1/chat/completions"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Content-Type": "application/json"
+    }
     payload = {
         "model": "Llama-3.2-3B-Instruct",
         "messages": [
-            {"role": "system", "content": "You're a helpful assistant."},
-            {"role": "user", "content": pesan}
+            {"role": "user", "content": question}
         ]
     }
 
     try:
-        r = requests.post(API_URL, headers=headers, json=payload)
-        if r.status_code == 200:
-            isi = r.json()
-            print(f"\n[✅] Q: {pesan}\n[🤖] A: {isi['choices'][0]['message']['content']}\n")
+        response = requests.post(url, json=payload, headers=headers)
+        if response.status_code == 401:
+            return "unauthorized"
+        elif response.status_code == 200:
+            data = response.json()
+            reply = data["choices"][0]["message"]["content"]
+            return reply
         else:
-            print(f"\n[❌] Error {r.status_code}: {r.text}\n")
+            return f"Error {response.status_code}: {response.text}"
     except Exception as e:
-        print(f"\n[⚠️] Gagal: {e}\n")
+        return f"Exception: {e}"
 
-# Loop kirim pertanyaan acak
-if __name__ == "__main__":
-    while True:
-        tanya = random.choice(pertanyaan)
-        print(f"[📤] Kirim: {tanya}")
-        kirim_chat(tanya)
-        time.sleep(15)
+# Fungsi untuk validasi token
+def validate_token(token):
+    test_question = "Halo!"
+    result = ask_question(token, test_question)
+    return result != "unauthorized"
+
+# Main
+while True:
+    token = input("🔑 Masukkan Bearer Token GaiaNet kamu: ").strip()
+    print("🔍 Mengecek token...")
+    if validate_token(token):
+        print("✅ Token valid! Bot mulai berjalan...\n")
+        break
+    else:
+        print("❌ Token tidak valid atau expired. Coba salin ulang dari DevTools.\n")
+
+# Jalankan loop bot
+while True:
+    question = random.choice(questions)
+    print(f"[📤] Kirim: {question}")
+    reply = ask_question(token, question)
+
+    if reply == "unauthorized":
+        print("❌ Token expired saat berjalan. Silakan jalankan ulang bot dan masukkan token baru.")
+        break
+    elif "Error" in reply or "Exception" in reply:
+        print(reply)
+    else:
+        print(f"[✅] Q: {question}")
+        print(f"[🤖] A: {reply}\n")
+
+    time.sleep(10)  # jeda antar pertanyaan
