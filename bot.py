@@ -3,21 +3,22 @@ import random
 import time
 
 API_URL = "https://llama.gaia.domains/v1/chat/completions"
-API_KEY = "Bearer gaia-NTdjODMyM2ItMDdiNC00OTA0LThiOGEtNDQ1NTRlMGVjZGZi-3v4tDCS7I3s_I8XW"
 
+# Minta token dari user saat bot dijalankan
+api_key = input("Masukkan Bearer Token GaiaNet kamu:\n> ").strip()
 headers = {
     "Content-Type": "application/json",
-    "Authorization": API_KEY
+    "Authorization": f"Bearer {api_key}"
 }
 
 pertanyaan = [
     "Apa itu singularitas AI?",
     "Bagaimana AI bisa membantu manusia?",
     "Kenapa penting menjaga lingkungan?",
-    "Apa peran blockchain di masa depan?",
     "Apa itu gaya gravitasi?",
-    "Jelaskan revolusi industri 4.0!",
-    "Apa manfaat membaca buku setiap hari?"
+    "Apa manfaat membaca buku setiap hari?",
+    "Apa peran blockchain di masa depan?",
+    "Bagaimana cara kerja otak manusia?"
 ]
 
 def kirim_chat(pesan):
@@ -33,13 +34,13 @@ def kirim_chat(pesan):
         r = requests.post(API_URL, headers=headers, json=payload)
         if r.status_code == 200:
             isi = r.json()
-            print(f"[✅] Q: {pesan}\n[🤖] A: {isi['choices'][0]['message']['content']}\n")
+            print(f"\n[✅] Q: {pesan}\n[🤖] A: {isi['choices'][0]['message']['content']}\n")
         else:
-            print(f"[❌] Error {r.status_code}: {r.text}")
+            print(f"\n[❌] Error {r.status_code}: {r.text}\n")
     except Exception as e:
-        print(f"[⚠️] Gagal: {e}")
+        print(f"\n[⚠️] Gagal: {e}\n")
 
-# Main loop
+# Loop kirim pertanyaan acak
 if __name__ == "__main__":
     while True:
         tanya = random.choice(pertanyaan)
