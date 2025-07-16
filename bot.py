@@ -4,17 +4,46 @@ import time
 
 questions = [
     "Apa manfaat membaca buku setiap hari?",
-    "Bagaimana cara menjadi orang yang lebih disiplin?",
-    "Apa itu singularitas AI?",
-    "Apa perbedaan antara etika dan moral?",
-    "Bagaimana cara kerja otak manusia?",
-    "Apa dampak sosial media terhadap remaja?",
-    "Bagaimana teknologi mempengaruhi kehidupan modern?",
-    "Apa pentingnya menjaga kesehatan mental?",
+    "Apa manfaat membaca buku setiap hari? Jelaskan dengan contoh.",
+    "Apa manfaat membaca buku setiap hari? Berikan penjelasan sederhana.",
+    "Apa manfaat membaca buku setiap hari? Apa pendapat Anda?",
+    "Apa manfaat membaca buku setiap hari? Apa tantangan terbesarnya?",
+    "Apa manfaat membaca buku setiap hari? Apakah ada sisi negatifnya?",
+    "Apa manfaat membaca buku setiap hari? Bagaimana hal ini memengaruhi generasi muda?",
+    "Apa manfaat membaca buku setiap hari? Apa solusi terbaik menurut Anda?",
+    "Apa manfaat membaca buku setiap hari? Jelaskan menurut sudut pandang ilmiah.",
+    "Apa manfaat membaca buku setiap hari? Berikan analogi sehari-hari.",
     "Bagaimana cara meningkatkan konsentrasi saat belajar?",
-    "Apa saja tantangan di era digital saat ini?",
-    # Pertanyaan 11 s/d 500 berikutnya:
-] + [f"Pertanyaan tambahan nomor {i}" for i in range(11, 501)]
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Jelaskan dengan contoh.",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Berikan penjelasan sederhana.",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Apa pendapat Anda?",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Apa tantangan terbesarnya?",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Apakah ada sisi negatifnya?",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Bagaimana hal ini memengaruhi generasi muda?",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Apa solusi terbaik menurut Anda?",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Jelaskan menurut sudut pandang ilmiah.",
+    "Bagaimana cara meningkatkan konsentrasi saat belajar? Berikan analogi sehari-hari.",
+    "Apa itu kecerdasan buatan (AI)?",
+    "Apa itu kecerdasan buatan (AI)? Jelaskan dengan contoh.",
+    "Apa itu kecerdasan buatan (AI)? Berikan penjelasan sederhana.",
+    "Apa itu kecerdasan buatan (AI)? Apa pendapat Anda?",
+    "Apa itu kecerdasan buatan (AI)? Apa tantangan terbesarnya?",
+    "Apa itu kecerdasan buatan (AI)? Apakah ada sisi negatifnya?",
+    "Apa itu kecerdasan buatan (AI)? Bagaimana hal ini memengaruhi generasi muda?",
+    "Apa itu kecerdasan buatan (AI)? Apa solusi terbaik menurut Anda?",
+    "Apa itu kecerdasan buatan (AI)? Jelaskan menurut sudut pandang ilmiah.",
+    "Apa itu kecerdasan buatan (AI)? Berikan analogi sehari-hari.",
+    "Mengapa penting menjaga kesehatan mental?",
+    "Mengapa penting menjaga kesehatan mental? Jelaskan dengan contoh.",
+    "Mengapa penting menjaga kesehatan mental? Berikan penjelasan sederhana.",
+    "Mengapa penting menjaga kesehatan mental? Apa pendapat Anda?",
+    "Mengapa penting menjaga kesehatan mental? Apa tantangan terbesarnya?",
+    "Mengapa penting menjaga kesehatan mental? Apakah ada sisi negatifnya?",
+    "Mengapa penting menjaga kesehatan mental? Bagaimana hal ini memengaruhi generasi muda?",
+    "Mengapa penting menjaga kesehatan mental? Apa solusi terbaik menurut Anda?",
+    "Mengapa penting menjaga kesehatan mental? Jelaskan menurut sudut pandang ilmiah.",
+    "Mengapa penting menjaga kesehatan mental? Berikan analogi sehari-hari."
+] + [f"Pertanyaan tambahan nomor {i}" for i in range(41, 501)]
 
 def ask_question(token, question):
     url = "https://llama.gaia.domains/v1/chat/completions"
@@ -28,7 +57,6 @@ def ask_question(token, question):
 def validate_token(token):
     return ask_question(token, "Halo!") != "unauthorized"
 
-# Main init
 while True:
     token = input("🔑 Masukkan Bearer Token GaiaNet kamu: ").strip()
     print("🔍 Mengecek token...")
